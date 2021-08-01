@@ -1,36 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, MenuItem, Select } from '@material-ui/core';
+import { FormControl, MenuItem, Select, Card, CardContent } from '@material-ui/core';
 import './App.css';
+import InfoBox from './InfoBox';
+import Map from './Map';
+import Table from './Table';
+import LineGraph from './LineGraph';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide');
+  const [countryInfo, setcountryInfo] = useState({});
+  const [tabledata, setTableData] = useState({});
+
+  useEffect(() => {
+     fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setcountryInfo(data);
+    })
+  }, [])
+
   useEffect(() => {
     const getCountriesData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/countries")
+      fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
         .then((data) => {
-          const countries = data.map((country) => (
-            {
-              name: country.country,
-              value: country.countryInfo.iso2
-            
-            }
-          ));
-          setCountries(countries)
-        })
-    }
+          const countries = data.map((country) => ({
+            name: country.country,
+            value: country.countryInfo.iso2,
+          }));
+          setCountries(countries);
+          setTableData(data);
+        });
+    };
+
     getCountriesData();
   }, []);
 
-  const onCountryChange = (event) => {
-    const countryCode = event.target.value;
-    setCountry(countryCode);
-  }
+  const onCountryChange = async (e) => {
+    const countryCode = e.target.value;
+
+    const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setcountryInfo(data);
+      });
+  };
 
   return (
     <div className="app">
-      <div className="app__header">
+      <div className="app__left">
+          <div className="app__header">
         <h1>Covid-19</h1>
         <FormControl className="app__dropdown">
         <Select
@@ -45,7 +69,23 @@ function App() {
       </FormControl>
       </div>
 
-      
+        <div className="app_stats">
+          {        console.log('>>>>', countryInfo)}
+        <InfoBox title="Coronaviruse Cases" total={countryInfo.cases} cases={countryInfo.todayCases} />
+        <InfoBox title="Recovered" total={countryInfo.recovered} cases={countryInfo.todayRecovered} />
+        <InfoBox title="Deaths" total={countryInfo.deaths} cases={countryInfo.todayDeaths} />
+      </div>
+
+      <Map />
+      </div>
+      <Card className="app__right">
+        {        console.log('>>>>aa', tabledata)}
+        <CardContent>
+          {/* { tabledata && <Table countries={tabledata} />} */}
+          <h2>Worldwide cases</h2>
+          <LineGraph />
+        </CardContent>
+      </Card>
     </div>
   );
 }
