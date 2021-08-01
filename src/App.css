@@ -16,6 +16,11 @@ body {
   margin-bottom: 20px;
 }
 
+.app__header > h1 {
+  color: #f02c2c;
+  font-size: 2rem;
+}
+
 .app__left {
   flex: 0.9;
 }
