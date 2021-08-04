@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# Covid-19 data Tracker <br>
+World wide covid-19 tracker made to look up curent and past recordings from a particular location.
 
 <img src="https://github.com/Alenjojo/covid-19-data-tracker/blob/master/images/1.PNG" />
 
