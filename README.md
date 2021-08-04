@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="https://github.com/Alenjojo/covid-19-data-tracker/blob/master/images/1.PNG" </img>
 
 ## Available Scripts
 
