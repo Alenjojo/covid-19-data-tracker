@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-<img src="https://github.com/Alenjojo/covid-19-data-tracker/blob/master/images/1.PNG" </img>
+<img src="https://github.com/Alenjojo/covid-19-data-tracker/blob/master/images/1.PNG" />
 
 ## Available Scripts
 
